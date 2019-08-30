@@ -1,45 +1,54 @@
 import React from "react";
 class TodoForm extends React.Component {
+  state = {
+    name: ""
+  };
 
- state = {
-   name: ""
- };
+  onBtnClickHandler = () => {
+    const name = this.state.name;
+    this.props.onAdd({
+      id: +new Date(),
+      text: name,
+      checked: false
+    });
+    this.setState({ name: "" });
+  };
 
- onBtnClickHandler = e => {
-   e.preventDefault();
-   const { name } = this.state;
-   this.props.onAdd({
-     id: +new Date(),
-     text: name,
-     checked : false,
-   });
- };
- 
- handleChange = e => {
-   const { id } = e.currentTarget;
-   this.setState({ [id]: e.currentTarget.value },
-     );
-   };
+  handleChange = param => {
+    const id = param.currentTarget.id;
+    this.setState({ [id]: param.currentTarget.value });
+    console.log()
+  };
 
- render() {
-   const { name } = this.state;
-   return (
-  //   <form >
-       <React.Fragment >
-         <button className="input" onClick={this.props.allCheck}>^</button>
-       <input className="input"
-       readOnly={false}
-         id="name"
-         type="text"
-         onChange={this.handleChange}
-         placeholder="What needs to be done?"
-         value={name}/>
-       <button className="input" onClick={this.onBtnClickHandler}>
-         Click
-       </button>
-       </React.Fragment>
-  //   </form>
-   );
- }
+  keyPressed = event => {
+    if (event.key === "Enter") {
+      this.onBtnClickHandler();
+    }
+  };
+  
+  render() {
+    const name = this.state.name;
+    return (
+      <div>
+        <span
+          onClick={this.props.itemsLeft}
+          className="input"
+          onClick={this.props.allChecked}
+        >
+          [Button]
+        </span>
+        <input
+          onKeyPress={this.keyPressed}
+          onChange={this.handleChange}
+          value={name}
+          className="input"
+          readOnly={false}
+          id='name'
+          type="text"
+          placeholder="What needs to be done?"
+        />
+      </div>
+    );
+  }
 }
 export default TodoForm;

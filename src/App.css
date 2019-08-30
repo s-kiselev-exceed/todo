@@ -1,27 +1,31 @@
-
-.todos{
+.todos {
   text-align: center;
-  color:#EAD8D8 ;
+  color: #ead8d8;
   font-size: 100px;
   font-family: sans-serif;
- }
- .appDiv{
- border-color:#F5F5F5;
- border-style: solid;
-  background-color: #E2E2E2;
+}
+.appDiv {
+  border-color: #f5f5f5;
+  border-style: solid;
+  background-color: #e2e2e2;
   text-align: center;
- }
- body {
+}
+body {
   margin: 0;
   background-color: #F5F5F5;
- }
- .input{
-  font-family: Georgia, 'Times New Roman', Times, serif;
-  color:black;
- }
- .checkbox{
-  border:1px;
- border-style: solid;
+}
+.input {
+  font-family: Georgia, "Times New Roman", Times, serif;
+  color: black;
+}
+.checkbox {
+  border: 1px;
+  border-style: solid;
   border-color: gray;
- border-radius: 40px;
- }
+  border-radius: 40px;
+}
+.formList {
+  border-style: solid;
+  border-color: gray;
+  border: 100px;
+}
