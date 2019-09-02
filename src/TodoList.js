@@ -27,7 +27,6 @@ class TodoList extends React.Component {
             checkItem={this.props.checkItem}
             itemsLeft={this.props.itemsLeft}
             changeItem={this.changeItem}
-            arrayList={this.props.list}
           />
         );
       });
@@ -35,10 +34,8 @@ class TodoList extends React.Component {
     return newsTemplate;
   };
 
-
-
   render() {
-    return <div>{this.renderList()}</div>;
+    return <div className="todo-list">{this.renderList()}</div>;
   }
 }
 export default TodoList;

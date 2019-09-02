@@ -1,7 +1,6 @@
 import React from "react";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
-import "./App.css";
 import TodoItem from "./TodoItem";
 
 class TodoApp extends React.Component {
@@ -16,8 +15,9 @@ class TodoApp extends React.Component {
   onAdd = data => {
     const newItem = [data, ...this.state.list];
     this.setState({ list: newItem });
+    console.log(data);
   };
-  //delet 1 item
+  //delete 1 item
   removeItem = id => {
     const newArray = this.state.list.filter(item => item.id !== id);
     this.setState({ list: newArray });
@@ -31,6 +31,7 @@ class TodoApp extends React.Component {
       return item;
     });
     this.setState({ list: newId });
+    console.log(param);
   };
   //clear all done
   allClear = () => {
@@ -74,9 +75,10 @@ class TodoApp extends React.Component {
   render() {
     const length = this.state.list.filter(item => item.checked === true).length;
     return (
-      <div className="appDiv">
+      <div>
         <h1 className="todos">todos</h1>
-        <div className="formList">
+
+        <div className="marg">
           <TodoForm
             itemsLeft={this.itemsLeft}
             onAdd={this.onAdd}
@@ -93,13 +95,25 @@ class TodoApp extends React.Component {
             checkItem={this.checkItem}
             taskChange={this.taskChange}
           />
-        </div>
-        <div>
-          <span>{length} items left</span>
-          <button onClick={this.allTask}>All</button>
-          <button onClick={this.filterUnDone}>Active</button>
-          <button onClick={this.filterDone}>Completed</button>
-          <button onClick={this.allClear}>Clear completed</button>
+          <div className="footer">
+            <div className="count">{length} items left</div>
+            <div className="filter">
+              <button className="btn" onClick={this.allTask}>
+                All
+              </button>
+              <button className="btn" onClick={this.filterUnDone}>
+                Active
+              </button>
+              <button className="btn" onClick={this.filterDone}>
+                Completed
+              </button>
+            </div>
+            <div className="clear">
+              <button className="btn" onClick={this.allClear}>
+                Clear completed
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     );

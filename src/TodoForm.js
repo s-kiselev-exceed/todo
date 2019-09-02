@@ -15,9 +15,7 @@ class TodoForm extends React.Component {
   };
 
   handleChange = param => {
-    const id = param.currentTarget.id;
-    this.setState({ [id]: param.currentTarget.value });
-    console.log()
+    this.setState({ name: param.currentTarget.value });
   };
 
   keyPressed = event => {
@@ -25,28 +23,30 @@ class TodoForm extends React.Component {
       this.onBtnClickHandler();
     }
   };
-  
   render() {
     const name = this.state.name;
     return (
-      <div>
-        <span
-          onClick={this.props.itemsLeft}
-          className="input"
-          onClick={this.props.allChecked}
-        >
-          [Button]
+      <div className="todo-form">
+        <span className="round1">
+          <input
+            type="checkbox"
+            id="checkbox-"
+            onClick={this.props.itemsLeft}
+            onClick={this.props.allChecked}
+          />
+          <label for="checkbox-"></label>
         </span>
-        <input
-          onKeyPress={this.keyPressed}
-          onChange={this.handleChange}
-          value={name}
-          className="input"
-          readOnly={false}
-          id='name'
-          type="text"
-          placeholder="What needs to be done?"
-        />
+        <div className="add-item-input">
+          <input
+            className="input"
+            onKeyPress={this.keyPressed}
+            onChange={this.handleChange}
+            value={name}
+            readOnly={false}
+            id="name"
+            placeholder="What needs to be done?"
+          />
+        </div>
       </div>
     );
   }

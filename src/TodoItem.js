@@ -1,9 +1,10 @@
 import React from "react";
+import "./App.css";
 
 class TodoItem extends React.Component {
   state = {
     readOnly: true,
-    localText: this.props.item.text,
+    localText: this.props.item.text
   };
 
   onClickClose = () => {
@@ -11,6 +12,7 @@ class TodoItem extends React.Component {
   };
   onChangeBox = () => {
     this.props.checkItem(this.props.item.id);
+    console.log(this.props);
   };
 
   changeClick = () => {
@@ -26,37 +28,35 @@ class TodoItem extends React.Component {
   };
 
   localChange = param => {
-    const {id} = param.currentTarget
-    this.setState({ [id]: param.currentTarget.value });
-  };
-
-  keyPr = event => {
-    if (event.key === "Enter") {
-      
-    }
+    this.setState({ localText: param.currentTarget.value });
   };
 
   render() {
     return (
-      <div>
-        <span className="checkbox">
+      <div className="xMark">
+        <span className="round">
           <input
             type="checkbox"
+            id={this.props.item.id}
             checked={this.props.item.checked}
             onChange={this.onChangeBox}
           />
+          <label for={this.props.item.id}></label>
         </span>
         <input
+          type="text"
+          className="localText"
+          id={this.props.item.id}
+          value={this.state.localText}
+          onChange={this.localChange}
+          readOnly={this.state.readOnly}
+          onKeyPress={this.onBtnClickHandler}
           onKeyPress={this.keyPr}
           onBlur={this.unChangeClick}
           onDoubleClick={this.changeClick}
-          type="text"
-          id="localText"
-          onChange={this.localChange}
-          readOnly={this.state.readOnly}
-          value={this.state.localText}
         />
-        <span onClick={this.onClickClose}>&times;</span>
+        <lable></lable>
+        <span onClick={this.onClickClose}>X</span>
       </div>
     );
   }
