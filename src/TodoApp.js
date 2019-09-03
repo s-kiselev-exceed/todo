@@ -10,7 +10,7 @@ class TodoApp extends React.Component {
     status: "all",
     switcher: false,
     lengthArray: [],
-    borderButton: "okey",
+    borderButton: "okey"
   };
 
   //Add array
@@ -39,7 +39,7 @@ class TodoApp extends React.Component {
     toast("Tasks Cleared!");
     const newAr = this.state.list.filter(item => item.checked === false);
     this.setState({ list: newAr });
-    this.setState({ borderButton:'clear' });
+    this.setState({ borderButton: "clear" });
   };
 
   //Checked all items
@@ -92,22 +92,40 @@ class TodoApp extends React.Component {
           />
           <ToastContainer />
           <div className="footer">
-            <div className="count">{length} items left</div>
+            <div>{length} items left</div>
             <div className="filter">
-              <button  
+              <button
                 onClick={this.allTask}
-                className={this.state.borderButton === "all" ? "button2" : "button"}>
+                className={
+                  this.state.borderButton === "all" ? "buttonOn" : "buttonOff"
+                }
+              >
                 All
               </button>
-              <button className={this.state.borderButton === "active" ? "button2" : "button"} onClick={this.filterUnDone}>
+              <button
+                className={
+                  this.state.borderButton === "active"? "buttonOn":"buttonOff"
+                }
+                onClick={this.filterUnDone}
+              >
                 Active
               </button>
-              <button className={this.state.borderButton === "completed" ? "button2" : "button"} onClick={this.filterDone}>
+              <button
+                className={
+                  this.state.borderButton === "completed"? "buttonOn":"buttonOff"
+                }
+                onClick={this.filterDone}
+              >
                 Completed
               </button>
             </div>
             <div className="clear">
-              <button className={this.state.borderButton === "clear" ? "button2" : "button"} onClick={this.allClear}>
+              <button
+                className={
+                  this.state.borderButton === "clear" ? "buttonOn" : "buttonOff"
+                }
+                onClick={this.allClear}
+              >
                 Clear completed
               </button>
             </div>

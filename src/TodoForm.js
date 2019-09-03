@@ -6,8 +6,8 @@ class TodoForm extends React.Component {
   state = {
     name: ""
   };
-//Set values for items , delete wordspace and clear input
-  onBtnClickHandler = () => {
+  //Set values for items , delete wordspace and clear input
+  addItem = () => {
     const name = this.state.name;
     if (name) {
       toast("Task Added!");
@@ -21,14 +21,14 @@ class TodoForm extends React.Component {
   };
 
   //Set current value for "name"
-  handleChange = param => {
+  inputValue = param => {
     this.setState({ name: param.currentTarget.value });
   };
 
   //Key "Inter" call next function
   keyPressed = event => {
     if (event.key === "Enter") {
-      this.onBtnClickHandler();
+      this.addItem();
     }
   };
   render() {
@@ -48,7 +48,7 @@ class TodoForm extends React.Component {
           <input
             className="input"
             onKeyPress={this.keyPressed}
-            onChange={this.handleChange}
+            onChange={this.inputValue}
             value={name}
             readOnly={false}
             id="name"

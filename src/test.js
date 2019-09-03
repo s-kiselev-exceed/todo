@@ -30,7 +30,7 @@ class New extends React.Component {
         </div>
       );
     });
-    return <div className="news">{newsTemplate}</div>;
+    return <div className="news">{newItem}</div>;
   }
 }
 

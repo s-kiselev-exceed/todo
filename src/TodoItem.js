@@ -52,7 +52,7 @@ class TodoItem extends React.Component {
           value={this.state.localText}
           onChange={this.localChange}
           readOnly={this.state.readOnly}
-          onKeyPress={this.onBtnClickHandler}
+          onKeyPress={this.addItem}
           onKeyPress={this.keyPr}
           onBlur={this.unChangeClick}
           onDoubleClick={this.changeClick}

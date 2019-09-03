@@ -1,6 +1,8 @@
 import React from "react";
 import TodoItem from "./TodoItem.js";
+
 class TodoList extends React.Component {
+
   renderList = () => {
     let array = [...this.props.list];
 
@@ -15,10 +17,10 @@ class TodoList extends React.Component {
       array = array.filter(item => item.checked === true);
     }
 
-    let newsTemplate;
+    let newItem;
 
     if (array.length) {
-      newsTemplate = array.map(item => {
+      newItem = array.map(item => {
         return (
           <TodoItem
             key={item.id}
@@ -30,7 +32,7 @@ class TodoList extends React.Component {
         );
       });
     }
-    return newsTemplate;
+    return newItem;
   };
 
   render() {

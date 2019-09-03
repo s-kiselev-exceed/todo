@@ -23,25 +23,23 @@ body {
   width: 50%;
   max-width: 550px;
   margin: 2em auto;
- background: #DADADA;
- box-shadow: 0 0 0 1px rgb(194, 192, 184) inset,
- 0 12px 0 -8px rgb(255, 255, 255),
- 0 12px 0 -7px #f1ecec,
- 0 21px 0 -12px rgb(255, 255, 255),
- 0 21px 0 -11px #eceaea
-
+  background: #dadada;
+  box-shadow: 0 0 0 1px rgb(194, 192, 184) inset,
+    0 12px 0 -8px rgb(255, 255, 255), 0 12px 0 -7px #f1ecec,
+    0 21px 0 -12px rgb(255, 255, 255), 0 21px 0 -11px #eceaea;
 }
 
-.button {
+.buttonOff {
   padding: 1px 5px;
   font-size: 1em;
   border: 1px solid white;
   background-color: white;
 }
-.button:focus{
+.buttonOff:focus {
   outline: none;
 }
-.button2{
+
+.buttonOn {
   padding: 1px 5px;
   font-size: 1em;
   border: 1px solid #ead8d8;
@@ -49,9 +47,10 @@ body {
   outline: none;
   border-radius: 2px;
 }
-.button2:focus{
+.buttonOn:focus {
   outline: none;
 }
+
 .todo-form {
   display: flex;
   flex-flow: row wrap;
@@ -104,19 +103,21 @@ body {
 
 .line-through-item {
   text-decoration: line-through;
-  color :#c5c5c59f;
+  color: #c5c5c59f;
 }
-
 
 .add-item-input {
   width: calc(100% - 13px);
   color: #f5f5f5;
 }
+
 input::placeholder {
   color: #f5f5f5;
   font-size: 1.5em;
   font-style: italic;
 }
+
+/* for delet mark */
 
 .xMark:hover {
   cursor: pointer;
@@ -128,7 +129,7 @@ input::placeholder {
   border-right: none;
 }
 
-/* checkboxs */
+/* for checkboxs */
 
 .round {
   position: relative;
@@ -174,36 +175,11 @@ input::placeholder {
 .round input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
-/* x mark */
 
-.close:hover {
-  opacity: 1;
-}
-
-.close:before,
-.close:after {
-  position: absolute;
-  left: 15px;
-  content: " ";
-  height: 33px;
-  width: 2px;
-  background-color: red;
-}
-
-.close:before {
-  transform: rotate(45deg);
-}
-
-.close:after {
-  transform: rotate(-45deg);
-}
-
-/* all checekd mark---------------------- */
-
+/* for AllChecked mark */
 .round1 {
   position: relative;
 }
-
 .round1 label {
   background-color: #fff;
   border-radius: 50%;
