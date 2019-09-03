@@ -10,9 +10,9 @@ class TodoItem extends React.Component {
   onClickClose = () => {
     this.props.removeItem(this.props.item.id);
   };
+
   onChangeBox = () => {
     this.props.checkItem(this.props.item.id);
-    console.log(this.props);
   };
 
   changeClick = () => {
@@ -45,7 +45,9 @@ class TodoItem extends React.Component {
         </span>
         <input
           type="text"
-          className="localText"
+          className={
+            this.props.item.checked ? "localText line-through-item":"localText"
+          }
           id={this.props.item.id}
           value={this.state.localText}
           onChange={this.localChange}

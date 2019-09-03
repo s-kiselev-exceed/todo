@@ -26,7 +26,6 @@ class TodoList extends React.Component {
             removeItem={this.props.removeItem}
             checkItem={this.props.checkItem}
             itemsLeft={this.props.itemsLeft}
-            changeItem={this.changeItem}
           />
         );
       });

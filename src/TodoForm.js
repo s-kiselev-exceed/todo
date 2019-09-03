@@ -1,23 +1,31 @@
 import React from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 class TodoForm extends React.Component {
   state = {
     name: ""
   };
-
+//Set values for items , delete wordspace and clear input
   onBtnClickHandler = () => {
     const name = this.state.name;
-    this.props.onAdd({
-      id: +new Date(),
-      text: name,
-      checked: false
-    });
+    if (name) {
+      toast("Task Added!");
+      this.props.onAdd({
+        id: +new Date(),
+        text: name.replace(/\s+/g, " ").trim(),
+        checked: false
+      });
+    }
     this.setState({ name: "" });
   };
 
+  //Set current value for "name"
   handleChange = param => {
     this.setState({ name: param.currentTarget.value });
   };
 
+  //Key "Inter" call next function
   keyPressed = event => {
     if (event.key === "Enter") {
       this.onBtnClickHandler();
