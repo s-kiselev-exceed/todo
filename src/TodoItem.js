@@ -41,7 +41,7 @@ class TodoItem extends React.Component {
             checked={this.props.item.checked}
             onChange={this.onChangeBox}
           />
-          <label for={this.props.item.id}></label>
+          <label htmlFor={this.props.item.id}></label>
         </span>
         <input
           type="text"
@@ -53,11 +53,9 @@ class TodoItem extends React.Component {
           onChange={this.localChange}
           readOnly={this.state.readOnly}
           onKeyPress={this.addItem}
-          onKeyPress={this.keyPr}
           onBlur={this.unChangeClick}
           onDoubleClick={this.changeClick}
         />
-        <lable></lable>
         <span onClick={this.onClickClose}>X</span>
       </div>
     );

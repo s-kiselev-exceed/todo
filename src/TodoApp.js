@@ -75,7 +75,7 @@ class TodoApp extends React.Component {
     this.setState({ borderButton: "all" });
   };
   render() {
-    const length = this.state.list.filter(item => item.checked === true).length;
+    const length = this.state.list.filter(item => item.checked === false).length;
     return (
       <div>
         <h1 className="todos">todos</h1>

@@ -9,7 +9,7 @@ class TodoForm extends React.Component {
   //Set values for items , delete wordspace and clear input
   addItem = () => {
     const name = this.state.name;
-    if (name) {
+    if (name.replace(/\s+/g, " ").trim()) {
       toast("Task Added!");
       this.props.onAdd({
         id: +new Date(),
@@ -39,10 +39,9 @@ class TodoForm extends React.Component {
           <input
             type="checkbox"
             id="checkbox-"
-            onClick={this.props.itemsLeft}
             onClick={this.props.allChecked}
           />
-          <label for="checkbox-"></label>
+          <label htmlFor="checkbox-"></label>
         </span>
         <div className="add-item-input">
           <input
@@ -55,6 +54,7 @@ class TodoForm extends React.Component {
             placeholder="What needs to be done?"
           />
         </div>
+        <ToastContainer/>
       </div>
     );
   }
