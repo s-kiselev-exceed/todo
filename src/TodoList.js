@@ -1,13 +1,11 @@
 import React from "react";
+import axios from 'axios';
 import TodoItem from "./TodoItem.js";
 
 class TodoList extends React.Component {
 
   renderList = () => {
     let array = [...this.props.list];
-
-    if (this.props.status === "all") {
-    }
 
     if (this.props.status === "active") {
       array = array.filter(item => item.checked === false);
@@ -16,7 +14,7 @@ class TodoList extends React.Component {
     if (this.props.status === "done") {
       array = array.filter(item => item.checked === true);
     }
-
+    
     let newItem;
 
     if (array.length) {
@@ -27,13 +25,14 @@ class TodoList extends React.Component {
             item={item}
             removeItem={this.props.removeItem}
             checkItem={this.props.checkItem}
-            itemsLeft={this.props.itemsLeft}
+            newArray={this.props.list}
           />
         );
       });
     }
     return newItem;
   };
+  
 
   render() {
     return <div className="todo-list">{this.renderList()}</div>;

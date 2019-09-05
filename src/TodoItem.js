@@ -1,14 +1,19 @@
 import React from "react";
+import axios from 'axios';
 import "./App.css";
 
 class TodoItem extends React.Component {
   state = {
     readOnly: true,
-    localText: this.props.item.text
+    localText: this.props.item.text,
   };
-
+    
   onClickClose = () => {
     this.props.removeItem(this.props.item.id);
+    axios.delete(`localhost:1234/users/${this.props.item.id}/delete`)
+    .then(res => {
+      console.log(res);
+    })
   };
 
   onChangeBox = () => {

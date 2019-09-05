@@ -1,4 +1,5 @@
 import React from "react";
+import axios from 'axios';
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
 import { ToastContainer, toast } from "react-toastify";
@@ -17,7 +18,22 @@ class TodoApp extends React.Component {
   onAdd = data => {
     const newItem = [data, ...this.state.list];
     this.setState({ list: newItem });
+  //Add Object to DB
+    axios.post("http://localhost:1234/users/create", {data})
+    .then(res => {
+      console.log(res);
+    })
+    console.log(data)
   };
+
+  //Get all tasks from DB
+  // componentDidMount() {
+   // axios.get(`http://localhost:1234/users/?????????../`)
+  //    .then(res => {
+   //     const list = [res.data];
+   //     this.setState({ list });
+  //    })
+ // }
 
   //Delete item
   removeItem = id => {
@@ -81,7 +97,10 @@ class TodoApp extends React.Component {
         <h1 className="todos">todos</h1>
 
         <div className="marg">
-          <TodoForm onAdd={this.onAdd} allChecked={this.allChecked} />
+          <TodoForm 
+            onAdd={this.onAdd} 
+            allChecked={this.allChecked} 
+          />
           <TodoList
             itemsLeft={this.itemsLeft}
             list={this.state.list}
@@ -96,36 +115,24 @@ class TodoApp extends React.Component {
             <div className="filter">
               <button
                 onClick={this.allTask}
-                className={
-                  this.state.borderButton === "all" ? "buttonOn" : "buttonOff"
-                }
-              >
+                className={this.state.borderButton === "all" ? "buttonOn" : "buttonOff"}>
                 All
               </button>
               <button
-                className={
-                  this.state.borderButton === "active"? "buttonOn":"buttonOff"
-                }
-                onClick={this.filterUnDone}
-              >
+                className={this.state.borderButton === "active"? "buttonOn":"buttonOff"}
+                onClick={this.filterUnDone}>
                 Active
               </button>
               <button
-                className={
-                  this.state.borderButton === "completed"? "buttonOn":"buttonOff"
-                }
-                onClick={this.filterDone}
-              >
+                className={this.state.borderButton === "completed"? "buttonOn":"buttonOff"}
+                onClick={this.filterDone}>
                 Completed
               </button>
             </div>
             <div className="clear">
               <button
-                className={
-                  this.state.borderButton === "clear" ? "buttonOn" : "buttonOff"
-                }
-                onClick={this.allClear}
-              >
+                className={this.state.borderButton === "clear" ? "buttonOn" : "buttonOff"}
+                onClick={this.allClear}>
                 Clear completed
               </button>
             </div>
