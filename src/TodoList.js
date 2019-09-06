@@ -1,5 +1,4 @@
 import React from "react";
-import axios from 'axios';
 import TodoItem from "./TodoItem.js";
 
 class TodoList extends React.Component {
@@ -26,6 +25,8 @@ class TodoList extends React.Component {
             removeItem={this.props.removeItem}
             checkItem={this.props.checkItem}
             newArray={this.props.list}
+            onAdd={this.props.onAdd}
+            onEdit={this.props.onEdit}
           />
         );
       });
