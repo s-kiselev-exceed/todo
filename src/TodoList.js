@@ -2,7 +2,6 @@ import React from "react";
 import TodoItem from "./TodoItem.js";
 
 class TodoList extends React.Component {
-
   renderList = () => {
     let array = [...this.props.list];
 
@@ -13,7 +12,7 @@ class TodoList extends React.Component {
     if (this.props.status === "done") {
       array = array.filter(item => item.checked === true);
     }
-    
+
     let newItem;
 
     if (array.length) {
@@ -33,7 +32,6 @@ class TodoList extends React.Component {
     }
     return newItem;
   };
-  
 
   render() {
     return <div className="todo-list">{this.renderList()}</div>;

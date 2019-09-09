@@ -5,7 +5,6 @@ import TodoForm from "./TodoForm";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-
 class TodoApp extends React.Component {
   state = {
     list: [],
@@ -17,31 +16,32 @@ class TodoApp extends React.Component {
 
   //Add array
   onAdd = data => {
-    axios.post("http://localhost:1235/users/create", data)
-    .then(res => {
-      const newItem = [...this.state.list, res.data];
-      this.setState({ list: newItem });
-    })
-    .catch(err => console.log(err));
+    axios
+      .post("http://localhost:1235/users/create", data)
+      .then(res => {
+        const newItem = [...this.state.list, res.data];
+        this.setState({ list: newItem });
+      })
+      .catch(err => console.log(err));
   };
 
   onEdit = obj => {
-    const newItem= this.state.list.map(data=>{
-      console.log(data.id);
-       if(obj.id===data.id){
-         data.text=obj.text
-       }
-       return data;
-    })
-  this.setState({list:newItem})
-  }
+    axios
+      .put(`http://localhost:1235/users/update/task/${obj.id}`, obj)
+      .then(res => {
+        const newItem = this.state.list.map(data => {
+          if (obj.id === data.id) {
+            data.text = obj.text;
+          }
+          return data;
+        });
+        this.setState({ list: newItem });
+      })
+      .catch(err => console.log(err));
+  };
 
   //Get all tasks from DB
   componentDidMount() {
-    this.getList();
-  }
-  
-  getList() {
     axios.get(`http://localhost:1235/users`).then(res => {
       const newItem = res.data;
       this.setState({ list: newItem });
@@ -55,68 +55,102 @@ class TodoApp extends React.Component {
   };
   //Checked item
   checkItem = param => {
-    const newId = this.state.list.map(item => {
-      if (item._id === param && item.checked === false) {
-        item.checked = true;
-        axios.put(`http://localhost:1235/users/update-false/${item._id}`)
-      } else if (item._id === param && item.checked === true) {
-        item.checked = false;
-        axios.put(`http://localhost:1235/users/update-true/${item._id}`)
-      }
-      return item;
-    });
-    this.setState({ list: newId });
+    axios
+      .put(`http://localhost:1235/users//update-check/${param.id}`, param)
+      .then(res => {
+        const newId = this.state.list.map(item => {
+          if (param.id === item._id) {
+            item.checked = !item.checked;
+          }
+          return item;
+        });
+        this.setState({ list: newId });
+      })
+      .catch(err => console.log(err));
   };
 
   //Clear all done
   allClear = () => {
-    axios.delete("http://localhost:1235/users/remove")
-    .then(res => {
-      const newAr = this.state.list.filter(item => item.checked === false);
-      this.setState({ list: newAr, borderButton: "clear" });
-      toast("Tasks Cleared!");
-    })
-    .catch(err => console.log(err));
+    axios
+      .delete("http://localhost:1235/users/remove")
+      .then(res => {
+        const newAr = this.state.list.filter(item => item.checked === false);
+        this.setState({ list: newAr, borderButton: "clear" });
+        toast("Tasks Cleared!");
+      })
+      .catch(err => console.log(err));
   };
 
   //Checked all items
-  allChecked = () => {
+   /* allChecked = () => {
     const newArr = this.state.list.map(item => {
       if (this.state.switcher === false) {
         axios.put(`http://localhost:1235/users/update`)
-        .then(res => {
-          item.checked = true;
-          this.setState({ switcher: true })
-        })
-        .catch(err => console.log(err));
-      } else if (this.state.switcher === true) {
+          .then(res => {
+            item.checked = true;
+            this.setState({ switcher: true });
+          })
+          .catch(err => console.log(err));
+      } else {
         axios.put(`http://localhost:1235/users/downdate`)
-        .then(res => {
-          item.checked = false;
-          this.setState({ switcher: false })
-        })
-        .catch(err => console.log(err));
+          .then(res => {
+            item.checked = false;
+            this.setState({ switcher: false });
+          })
+          .catch(err => console.log(err));
       }
       return item;
     });
     this.setState({ list: newArr });
   };
+  */
+  //============================
+
+  allChecked = item => {
+    console.log(item,'item')
+    const { list } = this.state;
+    if (this.state.switcher === false) {
+      axios.put(`http://localhost:1235/users/update`,).then(res => {
+        console.log(res)
+        const newArray = [...list].map(item => {
+          item.checked = true;
+        });
+
+        // this.setState({ switcher: true });
+      });
+    } else {
+      // axios.put(`http://localhost:1235/users/downdate`).then(res => {
+      //   this.state.list.map(item => {
+      //     item.checked = false;
+      //     this.setState({ switcher: false });
+      //   });
+      // });
+    }
+    return item;
+  };
+
+  //========================================
+
   // Filter for done items
   filterDone = () => {
     toast("Completed Tasks list!");
     this.setState({ status: "done", borderButton: "completed" });
   };
+
   // Filter for undone items
   filterUnDone = () => {
     toast("Active Tasks list!");
     this.setState({ status: "active", borderButton: "active" });
   };
+
   // Filter for all items
   allTask = () => {
     toast("All Tasks list!");
     this.setState({ status: "all", borderButton: "all" });
   };
+
   render() {
+    console.log(this.state.list)
     const length = this.state.list.filter(item => item.checked === false)
       .length;
     return (

@@ -32,7 +32,6 @@ class TodoForm extends React.Component {
     }
   };
 
-  
   render() {
     const name = this.state.name;
     return (
@@ -56,7 +55,7 @@ class TodoForm extends React.Component {
             placeholder="What needs to be done?"
           />
         </div>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     );
   }

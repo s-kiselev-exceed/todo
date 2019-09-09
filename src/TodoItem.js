@@ -10,7 +10,8 @@ class TodoItem extends React.Component {
 
   onClickClose = () => {
     let newId = this.props.item._id;
-    axios.delete(`http://localhost:1235/users/remove/${newId}`)
+    axios
+      .delete(`http://localhost:1235/users/remove/${newId}`)
       .then(res => {
         this.props.removeItem(this.props.item.id);
       })
@@ -18,7 +19,16 @@ class TodoItem extends React.Component {
   };
 
   onChangeBox = () => {
-    this.props.checkItem(this.props.item._id);
+    this.props.checkItem({
+      id: this.props.item._id,
+      checked: this.props.item.checked
+    });
+  };
+
+  changeClick = () => {
+    if (this.state.readOnly === true) {
+      this.setState({ readOnly: false });
+    }
   };
 
   changeClick = () => {
@@ -28,29 +38,14 @@ class TodoItem extends React.Component {
   };
 
   unChangeClick = () => {
-    if (this.state.readOnly === false) { 
-      
-    this.props.onEdit({id:this.props.item.id,text:this.state.localText})
-    //   const newItem=this.props.onAdd(id,text).map(data => {
-        
-    //     if (data.id === this.props.item.id) 
-    //     {
-    //       data.text = this.state.localText;
-    //     }
-    //     return data;
-    //   });
+    console.log(this.props.item._id);
+    if (this.state.readOnly === false) {
+      this.props.onEdit({
+        id: this.props.item._id,
+        text: this.state.localText
+      });
     }
-
   };
-  //   const newId = this.props.item._id;
-  ///    this.setState({ readOnly: true });
-  //   console.log("item text", this.props.item.text);
-  //   axios.put(`http://localhost:1235/users/update/task/${newId}`,data)
-  //   .then(res=>{
-  //     this.props.onAdd(res.data)
-  // });
-  //
-  // this.setState({ readOnly: true });
 
   localChange = param => {
     this.setState({ localText: param.currentTarget.value });
