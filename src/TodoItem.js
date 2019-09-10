@@ -38,7 +38,6 @@ class TodoItem extends React.Component {
   };
 
   unChangeClick = () => {
-    console.log(this.props.item._id);
     if (this.state.readOnly === false) {
       this.props.onEdit({
         id: this.props.item._id,

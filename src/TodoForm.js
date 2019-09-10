@@ -32,16 +32,20 @@ class TodoForm extends React.Component {
     }
   };
 
+  checkAll = () => {
+    this.props.allCheck({ checked: this.props.switcherCheck });
+  };
+
   render() {
     const name = this.state.name;
     return (
       <div className="todo-form">
-        <span className="round1">
-          <input
-            type="checkbox"
-            id="checkbox-"
-            onClick={this.props.allChecked}
-          />
+        <span
+          className={
+              this.props.switcherCheck === true
+              ? "round1 label"
+              : "round1 label:after"}>
+          <input type="checkbox" id="checkbox-" onClick={this.checkAll} />
           <label htmlFor="checkbox-"></label>
         </span>
         <div className="add-item-input">

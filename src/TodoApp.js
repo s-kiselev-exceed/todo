@@ -9,7 +9,7 @@ class TodoApp extends React.Component {
   state = {
     list: [],
     status: "all",
-    switcher: false,
+    switcher: true,
     lengthArray: [],
     borderButton: "okey"
   };
@@ -25,9 +25,10 @@ class TodoApp extends React.Component {
       .catch(err => console.log(err));
   };
 
+  // Change tasks
   onEdit = obj => {
     axios
-      .put(`http://localhost:1235/users/update/task/${obj.id}`, obj)
+      .put(`http://localhost:1235/users/update-task/${obj.id}`, obj)
       .then(res => {
         const newItem = this.state.list.map(data => {
           if (obj.id === data.id) {
@@ -42,10 +43,13 @@ class TodoApp extends React.Component {
 
   //Get all tasks from DB
   componentDidMount() {
-    axios.get(`http://localhost:1235/users`).then(res => {
-      const newItem = res.data;
-      this.setState({ list: newItem });
-    });
+    axios
+      .get(`http://localhost:1235/users`)
+      .then(res => {
+        const newItem = res.data;
+        this.setState({ list: newItem });
+      })
+      .catch(err => console.log(err));
   }
 
   //Delete item
@@ -53,18 +57,19 @@ class TodoApp extends React.Component {
     const newArray = this.state.list.filter(item => item.id !== id);
     this.setState({ list: newArray });
   };
+
   //Checked item
   checkItem = param => {
     axios
-      .put(`http://localhost:1235/users//update-check/${param.id}`, param)
+      .put(`http://localhost:1235/users//update-checkbox/${param.id}`, param)
       .then(res => {
-        const newId = this.state.list.map(item => {
+        const newItem = this.state.list.map(item => {
           if (param.id === item._id) {
             item.checked = !item.checked;
           }
           return item;
         });
-        this.setState({ list: newId });
+        this.setState({ list: newItem});
       })
       .catch(err => console.log(err));
   };
@@ -81,55 +86,18 @@ class TodoApp extends React.Component {
       .catch(err => console.log(err));
   };
 
-  //Checked all items
-   /* allChecked = () => {
-    const newArr = this.state.list.map(item => {
-      if (this.state.switcher === false) {
-        axios.put(`http://localhost:1235/users/update`)
-          .then(res => {
-            item.checked = true;
-            this.setState({ switcher: true });
-          })
-          .catch(err => console.log(err));
-      } else {
-        axios.put(`http://localhost:1235/users/downdate`)
-          .then(res => {
-            item.checked = false;
-            this.setState({ switcher: false });
-          })
-          .catch(err => console.log(err));
-      }
-      return item;
-    });
-    this.setState({ list: newArr });
+  // All check items
+  allCheck = item => {
+    axios
+      .put(`http://localhost:1235/users/update-checkbox`, item)
+      .then(res => {
+        const newArr = this.state.list.map(elem => {
+          return { ...elem, checked: this.state.switcher };
+        });      
+        this.setState({ switcher: !this.state.switcher, list: newArr });
+      })
+      .catch(err => console.log(err));
   };
-  */
-  //============================
-
-  allChecked = item => {
-    console.log(item,'item')
-    const { list } = this.state;
-    if (this.state.switcher === false) {
-      axios.put(`http://localhost:1235/users/update`,).then(res => {
-        console.log(res)
-        const newArray = [...list].map(item => {
-          item.checked = true;
-        });
-
-        // this.setState({ switcher: true });
-      });
-    } else {
-      // axios.put(`http://localhost:1235/users/downdate`).then(res => {
-      //   this.state.list.map(item => {
-      //     item.checked = false;
-      //     this.setState({ switcher: false });
-      //   });
-      // });
-    }
-    return item;
-  };
-
-  //========================================
 
   // Filter for done items
   filterDone = () => {
@@ -148,9 +116,7 @@ class TodoApp extends React.Component {
     toast("All Tasks list!");
     this.setState({ status: "all", borderButton: "all" });
   };
-
   render() {
-    console.log(this.state.list)
     const length = this.state.list.filter(item => item.checked === false)
       .length;
     return (
@@ -158,7 +124,11 @@ class TodoApp extends React.Component {
         <h1 className="todos">todos</h1>
 
         <div className="marg">
-          <TodoForm onAdd={this.onAdd} allChecked={this.allChecked} />
+          <TodoForm
+            onAdd={this.onAdd}
+            allCheck={this.allCheck}
+            switcherCheck={this.state.switcher}
+          />
           <TodoList
             itemsLeft={this.itemsLeft}
             list={this.state.list}
