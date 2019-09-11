@@ -17,7 +17,7 @@ class TodoApp extends React.Component {
   //Add array
   onAdd = data => {
     axios
-      .post("http://localhost:1235/users/create", data)
+      .post("http://localhost:1236/users/create", data)
       .then(res => {
         const newItem = [...this.state.list, res.data];
         this.setState({ list: newItem });
@@ -28,11 +28,12 @@ class TodoApp extends React.Component {
   // Change tasks
   onEdit = obj => {
     axios
-      .put(`http://localhost:1235/users/update-task/${obj.id}`, obj)
+      .put(`http://localhost:1236/users/update-task/${obj.id}`, obj)
       .then(res => {
+        console.log(res.data)
         const newItem = this.state.list.map(data => {
-          if (obj.id === data.id) {
-            data.text = obj.text;
+          if (obj.id === res.data.id) {
+              data=res.data.text;
           }
           return data;
         });
@@ -44,7 +45,7 @@ class TodoApp extends React.Component {
   //Get all tasks from DB
   componentDidMount() {
     axios
-      .get(`http://localhost:1235/users`)
+      .get(`http://localhost:1236/users`)
       .then(res => {
         const newItem = res.data;
         this.setState({ list: newItem });
@@ -61,13 +62,14 @@ class TodoApp extends React.Component {
   //Checked item
   checkItem = param => {
     axios
-      .put(`http://localhost:1235/users//update-checkbox/${param.id}`, param)
+      .put(`http://localhost:1236/users//update-checkbox/${param.id}`, param)
       .then(res => {
-        const newItem = this.state.list.map(item => {
-          if (param.id === item._id) {
-            item.checked = !item.checked;
+        console.log(param)
+        const newItem = this.state.list.map(data => {
+          if (param.id === res.data._id) {
+            data.checked = res.data.checked;
           }
-          return item;
+          return data;
         });
         this.setState({ list: newItem});
       })
@@ -77,9 +79,10 @@ class TodoApp extends React.Component {
   //Clear all done
   allClear = () => {
     axios
-      .delete("http://localhost:1235/users/remove")
+      .delete("http://localhost:1236/users/remove")
       .then(res => {
-        const newAr = this.state.list.filter(item => item.checked === false);
+        console.log(res)
+        const newAr = this.state.list.filter(data=> data.checked === false);
         this.setState({ list: newAr, borderButton: "clear" });
         toast("Tasks Cleared!");
       })
@@ -89,8 +92,9 @@ class TodoApp extends React.Component {
   // All check items
   allCheck = item => {
     axios
-      .put(`http://localhost:1235/users/update-checkbox`, item)
+      .put(`http://localhost:1236/users/update-checkbox`, item)
       .then(res => {
+        console.log(res.data)
         const newArr = this.state.list.map(elem => {
           return { ...elem, checked: this.state.switcher };
         });      

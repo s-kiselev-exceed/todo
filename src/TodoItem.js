@@ -11,9 +11,10 @@ class TodoItem extends React.Component {
   onClickClose = () => {
     let newId = this.props.item._id;
     axios
-      .delete(`http://localhost:1235/users/remove/${newId}`)
+      .delete(`http://localhost:1236/users/remove/${newId}`)
       .then(res => {
-        this.props.removeItem(this.props.item.id);
+        console.log(res.data)
+        this.props.removeItem(res.data.id);
       })
       .catch(err => console.log(err));
   };
