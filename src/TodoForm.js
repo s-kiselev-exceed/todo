@@ -1,5 +1,4 @@
 import React from "react";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 class TodoForm extends React.Component {
@@ -10,7 +9,6 @@ class TodoForm extends React.Component {
   addItem = () => {
     const name = this.state.name;
     if (name.replace(/\s+/g, " ").trim()) {
-      toast("Task Added!");
       this.props.onAdd({
         id: +new Date(),
         text: name.replace(/\s+/g, " ").trim(),
@@ -33,7 +31,7 @@ class TodoForm extends React.Component {
   };
 
   checkAll = () => {
-    this.props.allCheck({ checked: this.props.switcherCheck });
+    this.props.checkAllItems({ checked: this.props.switcherCheck });
   };
 
   render() {
@@ -59,7 +57,6 @@ class TodoForm extends React.Component {
             placeholder="What needs to be done?"
           />
         </div>
-        <ToastContainer />
       </div>
     );
   }

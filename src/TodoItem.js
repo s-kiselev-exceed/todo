@@ -11,19 +11,18 @@ class TodoItem extends React.Component {
   onClickClose = () => {
     let newId = this.props.item._id;
     axios
-      .delete(`http://localhost:1236/users/remove/${newId}`)
+      .delete(`http://localhost:1234/items/remove/${newId}`)
       .then(res => {
-        console.log(res.data)
         this.props.removeItem(res.data.id);
       })
       .catch(err => console.log(err));
   };
 
   onChangeBox = () => {
-    this.props.checkItem({
-      id: this.props.item._id,
-      checked: this.props.item.checked
-    });
+    this.props.checkItem(
+      { id: this.props.item._id ,
+       checked: this.props.item.checked }
+    );
   };
 
   changeClick = () => {
@@ -40,10 +39,10 @@ class TodoItem extends React.Component {
 
   unChangeClick = () => {
     if (this.state.readOnly === false) {
-      this.props.onEdit({
-        id: this.props.item._id,
-        text: this.state.localText
-      });
+      this.props.onEdit(
+        {id: this.props.item._id,
+        text: this.state.localText},
+      );
     }
   };
 

@@ -14,38 +14,37 @@ class TodoApp extends React.Component {
     borderButton: "okey"
   };
 
-  //Add array
+  //Add item
   onAdd = data => {
     axios
-      .post("http://localhost:1236/users/create", data)
+      .post("http://localhost:1234/items/create", data)
       .then(res => {
         const newItem = [...this.state.list, res.data];
         this.setState({ list: newItem });
+        toast("Task Added!");
       })
       .catch(err => console.log(err));
   };
 
-  // Change tasks
-  onEdit = obj => {
+  //Change item
+  onEdit = (param) => {
+    console.log(param);
     axios
-      .put(`http://localhost:1236/users/update-task/${obj.id}`, obj)
+      .put(`http://localhost:1234/items/change-item/${param.id}`,{update:{text: param.text}})
       .then(res => {
-        console.log(res.data)
+        console.log(res)
         const newItem = this.state.list.map(data => {
-          if (obj.id === res.data.id) {
-              data=res.data.text;
-          }
-          return data;
+          return { ...data, text: res.data.text };
         });
         this.setState({ list: newItem });
       })
       .catch(err => console.log(err));
   };
 
-  //Get all tasks from DB
+  //Get all items from DB
   componentDidMount() {
     axios
-      .get(`http://localhost:1236/users`)
+      .get(`http://localhost:1234/items`)
       .then(res => {
         const newItem = res.data;
         this.setState({ list: newItem });
@@ -59,46 +58,51 @@ class TodoApp extends React.Component {
     this.setState({ list: newArray });
   };
 
-  //Checked item
-  checkItem = param => {
+  //Check item
+  checkItem = (param) => {
+    console.log(param.id,'+++',param.checked);
     axios
-      .put(`http://localhost:1236/users//update-checkbox/${param.id}`, param)
+      .put(`http://localhost:1234/items/change-item/${param.id}`,{
+        update:{checked: !param.checked}
+      })
       .then(res => {
-        console.log(param)
-        const newItem = this.state.list.map(data => {
-          if (param.id === res.data._id) {
-            data.checked = res.data.checked;
+        console.log(res);
+        const newItem = this.state.list.map(item => {
+          if (param.id === item._id) {
+            return { ...item, checked: !res.data.checked };
           }
-          return data;
+          return item;
         });
-        this.setState({ list: newItem});
+        this.setState({ list: newItem });
       })
       .catch(err => console.log(err));
   };
 
-  //Clear all done
+  // Check all items
+  checkAllItems = item => {
+    axios
+      .put(`http://localhost:1234/items/update-checkbox`, item)
+      .then(res => {
+        console.log(res.data[0].checked);
+        const newArr = this.state.list.map(elem => {
+          return { ...elem, checked: res.data[0].checked };
+        });
+        this.setState({ switcher: !this.state.switcher, list: newArr });
+      })
+      .catch(err => console.log(err));
+  };
+
+  //Clear all done item
   allClear = () => {
     axios
-      .delete("http://localhost:1236/users/remove")
+      .delete("http://localhost:1234/items/remove")
       .then(res => {
-        console.log(res)
-        const newAr = this.state.list.filter(data=> data.checked === false);
+        console.log(res.data);
+        const newAr = this.state.list.filter(item => 
+          item.checked === res.data[0].checked
+        );
         this.setState({ list: newAr, borderButton: "clear" });
         toast("Tasks Cleared!");
-      })
-      .catch(err => console.log(err));
-  };
-
-  // All check items
-  allCheck = item => {
-    axios
-      .put(`http://localhost:1236/users/update-checkbox`, item)
-      .then(res => {
-        console.log(res.data)
-        const newArr = this.state.list.map(elem => {
-          return { ...elem, checked: this.state.switcher };
-        });      
-        this.setState({ switcher: !this.state.switcher, list: newArr });
       })
       .catch(err => console.log(err));
   };
@@ -126,11 +130,10 @@ class TodoApp extends React.Component {
     return (
       <div>
         <h1 className="todos">todos</h1>
-
         <div className="marg">
           <TodoForm
             onAdd={this.onAdd}
-            allCheck={this.allCheck}
+            checkAllItems={this.checkAllItems}
             switcherCheck={this.state.switcher}
           />
           <TodoList
