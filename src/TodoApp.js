@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import TodoList from "./TodoList";
 import TodoForm from "./TodoForm";
+import TodoFooter from "./TodoFooter";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -9,15 +10,13 @@ class TodoApp extends React.Component {
   state = {
     list: [],
     status: "all",
-    switcher: true,
-    lengthArray: [],
-    borderButton: "okey"
+    switcher: true
   };
 
   //Add item
   onAdd = data => {
     axios
-      .post("http://localhost:1234/items/create", data)
+      .post("http://localhost:1235/items/create", data)
       .then(res => {
         const newItem = [...this.state.list, res.data];
         this.setState({ list: newItem });
@@ -27,14 +26,18 @@ class TodoApp extends React.Component {
   };
 
   //Change item
-  onEdit = (param) => {
-    console.log(param);
+  onEdit = obj => {
     axios
-      .put(`http://localhost:1234/items/change-item/${param.id}`,{update:{text: param.text}})
+      .put(`http://localhost:1235/items/change-item/${obj.id}`, {
+        update: { text: obj.text }
+      })
       .then(res => {
-        console.log(res)
+        console.log(res);
         const newItem = this.state.list.map(data => {
-          return { ...data, text: res.data.text };
+          if (obj.id === data._id) {
+            return { ...data, text: res.data.text }; //res.data.text-old value
+          }
+          return data;
         });
         this.setState({ list: newItem });
       })
@@ -44,7 +47,7 @@ class TodoApp extends React.Component {
   //Get all items from DB
   componentDidMount() {
     axios
-      .get(`http://localhost:1234/items`)
+      .get(`http://localhost:1235/items`)
       .then(res => {
         const newItem = res.data;
         this.setState({ list: newItem });
@@ -59,17 +62,16 @@ class TodoApp extends React.Component {
   };
 
   //Check item
-  checkItem = (param) => {
-    console.log(param.id,'+++',param.checked);
+  checkItem = obj => {
+    console.log(obj);
     axios
-      .put(`http://localhost:1234/items/change-item/${param.id}`,{
-        update:{checked: !param.checked}
+      .put(`http://localhost:1235/items/change-item/${obj.id}`, {
+        update: { checked: !obj.checked }
       })
       .then(res => {
-        console.log(res);
         const newItem = this.state.list.map(item => {
-          if (param.id === item._id) {
-            return { ...item, checked: !res.data.checked };
+          if (obj.id === item._id) {
+            return { ...item, checked: res.data.checked };
           }
           return item;
         });
@@ -79,11 +81,10 @@ class TodoApp extends React.Component {
   };
 
   // Check all items
-  checkAllItems = item => {
+  checkAllItems = checked => {
     axios
-      .put(`http://localhost:1234/items/update-checkbox`, item)
+      .put(`http://localhost:1235/items/check-all-items`, checked)
       .then(res => {
-        console.log(res.data[0].checked);
         const newArr = this.state.list.map(elem => {
           return { ...elem, checked: res.data[0].checked };
         });
@@ -95,11 +96,12 @@ class TodoApp extends React.Component {
   //Clear all done item
   allClear = () => {
     axios
-      .delete("http://localhost:1234/items/remove")
+      .delete("http://localhost:1235/items/delete-done-items")
       .then(res => {
-        console.log(res.data);
-        const newAr = this.state.list.filter(item => 
-          item.checked === res.data[0].checked
+        const newAr = this.state.list.filter(item =>
+          res.data.length === 0
+            ? item.checked === false
+            : item.checked === res.data[0].checked
         );
         this.setState({ list: newAr, borderButton: "clear" });
         toast("Tasks Cleared!");
@@ -107,34 +109,51 @@ class TodoApp extends React.Component {
       .catch(err => console.log(err));
   };
 
+  // Clear all done items (Test)
+  // allClear = (event) => {
+  //   console.log(event)
+  //   axios
+  //     .delete("http://localhost:1235/items/test", {
+  //       update: { checked: event }
+  //     })
+  //     .then(res => {
+  //       const newAr = this.state.list.filter(item =>
+  //         res.data.length === 0
+  //           ? item.checked === false
+  //           : item.checked === res.data[0].checked
+  //       );
+  //       this.setState({ list: newAr, borderButton: "clear" });
+  //       toast("Tasks Cleared!");
+  //     })
+  //     .catch(err => console.log(err));
+  // };
+
   // Filter for done items
   filterDone = () => {
+    this.setState({ status: "done" });
     toast("Completed Tasks list!");
-    this.setState({ status: "done", borderButton: "completed" });
   };
 
   // Filter for undone items
   filterUnDone = () => {
+    this.setState({ status: "active" });
     toast("Active Tasks list!");
-    this.setState({ status: "active", borderButton: "active" });
   };
 
   // Filter for all items
   allTask = () => {
+    this.setState({ status: "all" });
     toast("All Tasks list!");
-    this.setState({ status: "all", borderButton: "all" });
   };
   render() {
-    const length = this.state.list.filter(item => item.checked === false)
-      .length;
     return (
       <div>
-        <h1 className="todos">todos</h1>
-        <div className="marg">
+        <h1 className="todos-header">todos</h1>
+        <div className="style-components">
           <TodoForm
             onAdd={this.onAdd}
             checkAllItems={this.checkAllItems}
-            switcherCheck={this.state.switcher}
+            switcher={this.state.switcher}
           />
           <TodoList
             itemsLeft={this.itemsLeft}
@@ -147,49 +166,14 @@ class TodoApp extends React.Component {
             onEdit={this.onEdit}
           />
           <ToastContainer />
-          <div className="footer">
-            <div>{length} items left</div>
-            <div className="filter">
-              <button
-                onClick={this.allTask}
-                className={
-                  this.state.borderButton === "all" ? "buttonOn" : "buttonOff"
-                }
-              >
-                All
-              </button>
-              <button
-                className={
-                  this.state.borderButton === "active"
-                    ? "buttonOn"
-                    : "buttonOff"
-                }
-                onClick={this.filterUnDone}
-              >
-                Active
-              </button>
-              <button
-                className={
-                  this.state.borderButton === "completed"
-                    ? "buttonOn"
-                    : "buttonOff"
-                }
-                onClick={this.filterDone}
-              >
-                Completed
-              </button>
-            </div>
-            <div className="clear">
-              <button
-                className={
-                  this.state.borderButton === "clear" ? "buttonOn" : "buttonOff"
-                }
-                onClick={this.allClear}
-              >
-                Clear completed
-              </button>
-            </div>
-          </div>
+          <TodoFooter
+            list={this.state.list}
+            status={this.state.status}
+            allTask={this.allTask}
+            filterUnDone={this.filterUnDone}
+            filterDone={this.filterDone}
+            allClear={this.allClear}
+          />
         </div>
       </div>
     );

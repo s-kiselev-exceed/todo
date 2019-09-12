@@ -19,19 +19,19 @@ class TodoForm extends React.Component {
   };
 
   //Set current value for "name"
-  inputValue = param => {
-    this.setState({ name: param.currentTarget.value });
+  inputValue = event => {
+    this.setState({ name: event.currentTarget.value });
   };
 
   //Key "Inter" call next function
-  keyPressed = event => {
+  pressKey = event => {
     if (event.key === "Enter") {
       this.addItem();
     }
   };
 
   checkAll = () => {
-    this.props.checkAllItems({ checked: this.props.switcherCheck });
+    this.props.checkAllItems({ checked: this.props.switcher });
   };
 
   render() {
@@ -40,16 +40,18 @@ class TodoForm extends React.Component {
       <div className="todo-form">
         <span
           className={
-              this.props.switcherCheck === true
-              ? "round1 label"
-              : "round1 label:after"}>
-          <input type="checkbox" id="checkbox-" onClick={this.checkAll} />
-          <label htmlFor="checkbox-"></label>
+            this.props.switcher === true
+              ? "main-check-box label"
+              : "main-check-box label:after"
+          }
+        >
+          <input type="checkbox" id="checkbox" onClick={this.checkAll} />
+          <label htmlFor="checkbox"></label>
         </span>
-        <div className="add-item-input">
+        <div className="input-form">
           <input
-            className="input"
-            onKeyPress={this.keyPressed}
+            className="input-text"
+            onKeyPress={this.pressKey}
             onChange={this.inputValue}
             value={name}
             readOnly={false}

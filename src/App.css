@@ -1,13 +1,8 @@
-.todos {
+.todos-header {
   text-align: center;
   color: #ead8d8;
   font-size: 100px;
   font-family: sans-serif;
-}
-
-.borders {
-  outline: none;
-  border: 2px solid #f5f5f5;
 }
 
 body {
@@ -15,7 +10,7 @@ body {
   color: white;
 }
 
-.marg {
+.style-components {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -29,17 +24,17 @@ body {
     0 21px 0 -12px rgb(255, 255, 255), 0 21px 0 -11px #eceaea;
 }
 
-.buttonOff {
+.button-off {
   padding: 1px 5px;
   font-size: 1em;
   border: 1px solid white;
   background-color: white;
 }
-.buttonOff:focus {
+.button-off:focus {
   outline: none;
 }
 
-.buttonOn {
+.button-on {
   padding: 1px 5px;
   font-size: 1em;
   border: 1px solid #ead8d8;
@@ -47,7 +42,7 @@ body {
   outline: none;
   border-radius: 2px;
 }
-.buttonOn:focus {
+.button-on:focus {
   outline: none;
 }
 
@@ -65,7 +60,7 @@ body {
   background-color: #fff;
 }
 
-.input {
+.input-text {
   display: flex;
   margin: auto;
   width: 100%;
@@ -85,13 +80,14 @@ body {
   color: #5a5d64;
   padding: 5px;
   background-color: #fff;
+  
 }
 
-.filter {
+.filters {
   margin: 0 auto;
 }
 
-.localText {
+.input-item {
   width: calc(100% - 55px);
   margin-left: 15px;
   outline: none;
@@ -106,7 +102,7 @@ body {
   color: #c5c5c59f;
 }
 
-.add-item-input {
+.input-form {
   width: calc(100% - 13px);
   color: #f5f5f5;
 }
@@ -119,11 +115,11 @@ input::placeholder {
 
 /* for delet mark */
 
-.xMark:hover {
+.x-mark:hover {
   cursor: pointer;
   color: red;
 }
-.xMark {
+.x-mark {
   border: 1px solid #f5f5f5;
   border-left: none;
   border-right: none;
@@ -131,11 +127,11 @@ input::placeholder {
 
 /* for checkboxs */
 
-.round {
+.check-box {
   position: relative;
 }
 
-.round label {
+.check-box label {
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 50%;
@@ -149,7 +145,7 @@ input::placeholder {
   top: -4px;
 }
 
-.round label:after {
+.check-box label:after {
   border: 2px solid #86b0a6;
   border-top: none;
   border-right: none;
@@ -163,24 +159,24 @@ input::placeholder {
   width: 15px;
 }
 
-.round input[type="checkbox"] {
+.check-box input[type="checkbox"] {
   visibility: hidden;
 }
 
-.round input[type="checkbox"]:checked + label {
+.check-box input[type="checkbox"]:checked + label {
   background-color: #fff;
   border-color: #86b0a6;
 }
 
-.round input[type="checkbox"]:checked + label:after {
+.check-box input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }
 
 /* for AllChecked mark */
-.round1 {
+.main-check-box {
   position: relative;
 }
-.round1 label {
+.main-check-box label {
   background-color: #fff;
   border-radius: 50%;
   cursor: pointer;
@@ -192,7 +188,7 @@ input::placeholder {
   margin-left: 7px;
 }
 
-.round1 label:after {
+.main-check-box label:after {
   border: 2px solid rgb(73, 69, 69);
   border-top: none;
   border-right: none;
@@ -206,10 +202,10 @@ input::placeholder {
   width: 13px;
 }
 
-.round1 input[type="checkbox"] {
+.main-check-box input[type="checkbox"] {
   visibility: hidden;
 }
 
-.round1 input[type="checkbox"]:checked + label:after {
+.main-check-box input[type="checkbox"]:checked + label:after {
   opacity: 1;
 }

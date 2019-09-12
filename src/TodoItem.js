@@ -11,7 +11,7 @@ class TodoItem extends React.Component {
   onClickClose = () => {
     let newId = this.props.item._id;
     axios
-      .delete(`http://localhost:1234/items/remove/${newId}`)
+      .delete(`http://localhost:1235/items/delete-item/${newId}`)
       .then(res => {
         this.props.removeItem(res.data.id);
       })
@@ -19,10 +19,10 @@ class TodoItem extends React.Component {
   };
 
   onChangeBox = () => {
-    this.props.checkItem(
-      { id: this.props.item._id ,
-       checked: this.props.item.checked }
-    );
+    this.props.checkItem({
+      id: this.props.item._id,
+      checked: this.props.item.checked
+    });
   };
 
   changeClick = () => {
@@ -39,21 +39,21 @@ class TodoItem extends React.Component {
 
   unChangeClick = () => {
     if (this.state.readOnly === false) {
-      this.props.onEdit(
-        {id: this.props.item._id,
-        text: this.state.localText},
-      );
+      this.props.onEdit({
+        id: this.props.item._id,
+        text: this.state.localText
+      });
     }
   };
 
-  localChange = param => {
-    this.setState({ localText: param.currentTarget.value });
+  localChange = event => {
+    this.setState({ localText: event.currentTarget.value });
   };
 
   render() {
     return (
-      <div className="xMark">
-        <span className="round">
+      <div className="x-mark">
+        <span className="check-box">
           <input
             type="checkbox"
             id={this.props.item.id}
@@ -66,8 +66,8 @@ class TodoItem extends React.Component {
           type="text"
           className={
             this.props.item.checked
-              ? "localText line-through-item"
-              : "localText"
+              ? "input-item line-through-item"
+              : "input-item"
           }
           id={this.props.item.id}
           value={this.state.localText}
